@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "161497158933",
+    "firebase_url": "https://tourmentor-892ad.firebaseio.com",
+    "project_id": "tourmentor-892ad",
+    "storage_bucket": "tourmentor-892ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161497158933:android:7473c93145139156",
+        "android_client_info": {
+          "package_name": "paras.developers.com.tourmentor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "161497158933-q5n4mp0kfh0ct71k4ece8fq1vdneijvf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "paras.developers.com.tourmentor",
+            "certificate_hash": "ccc8434463af23ca99721dae01c04935857422ce"
+          }
+        },
+        {
+          "client_id": "161497158933-8p9cu4tgnt3bvamlm7998822qch0l79c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDESSAYoRQ0Mgmij8vWZuvBfJn2uQ5vSx0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "161497158933-8p9cu4tgnt3bvamlm7998822qch0l79c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
