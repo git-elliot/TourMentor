@@ -14,11 +14,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 GoogleSignInClient mGoogleSignInClient;
 SignInButton btn;
 private static int RC_SIGN_IN = 1889;
+FirebaseAuth auth;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -41,6 +44,7 @@ private static int RC_SIGN_IN = 1889;
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 btn = findViewById(R.id.googleSignIn);
 btn.setSize(SignInButton.SIZE_STANDARD);
+auth = FirebaseAuth.getInstance();
 btn.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
@@ -51,6 +55,16 @@ btn.setOnClickListener(new View.OnClickListener() {
 });
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = auth.getCurrentUser();
+        if(user!=null){
+            Toast.makeText(this, user.getDisplayName(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -60,4 +74,5 @@ btn.setOnClickListener(new View.OnClickListener() {
             Log.e("Tag","SignIn");
         }
     }
+
 }
