@@ -16,18 +16,26 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 GoogleSignInClient mGoogleSignInClient;
 SignInButton btn;
 private static int RC_SIGN_IN = 1889;
 FirebaseAuth auth;
+    private DatabaseReference mDatabase;
+    private DatabaseReference userEnd ;
 String TAG ="MainActivity";
 
     @Override
@@ -46,6 +54,7 @@ String TAG ="MainActivity";
         setContentView(R.layout.activity_main);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
@@ -95,7 +104,7 @@ btn.setOnClickListener(new View.OnClickListener() {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();
                           //  updateUI(user);
-                            
+                         registerUsertoFirebase(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -106,6 +115,34 @@ btn.setOnClickListener(new View.OnClickListener() {
                         // ...
                     }
                 });
+    }
+    public static List<TouristDetails> getTouristInfo(String name, String email, String pUrl){
+
+        List<TouristDetails> touristDetailsArrayList = new ArrayList<>();
+        TouristDetails touristDetails = new TouristDetails(name,pUrl,email);
+        touristDetailsArrayList.add(touristDetails);
+        return touristDetailsArrayList;
+    }
+    public void registerUsertoFirebase(FirebaseUser firebaseUser){
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        userEnd = mDatabase.child("TouristInfo");
+        List<TouristDetails> touristDetailsList = getTouristInfo(firebaseUser.getDisplayName().toString(),firebaseUser.getPhotoUrl().toString(),firebaseUser.getEmail().toString());
+        for(TouristDetails touristDetails1 : touristDetailsList){
+           userEnd.child(firebaseUser.getUid()).setValue(touristDetails1).addOnFailureListener(new OnFailureListener() {
+               @Override
+               public void onFailure(@NonNull Exception e) {
+                   Toast.makeText(MainActivity.this, "Unable to register", Toast.LENGTH_SHORT).show();
+               }
+           }).addOnCompleteListener(new OnCompleteListener<Void>() {
+               @Override
+               public void onComplete(@NonNull Task<Void> task) {
+                   Toast.makeText(MainActivity.this, "User added successfully.", Toast.LENGTH_SHORT).show();
+               }
+           });
+        }
+
+
     }
 
 }
