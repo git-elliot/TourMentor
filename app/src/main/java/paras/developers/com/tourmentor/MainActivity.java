@@ -153,7 +153,7 @@ startActivity(new Intent(MainActivity.this,NavigationActivity.class));
         touristDetailsArrayList.add(touristDetails);
         return touristDetailsArrayList;
     }
-    public void registerUsertoFirebase(FirebaseUser firebaseUser){
+    public void registerUsertoFirebase(final FirebaseUser firebaseUser){
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userEnd = mDatabase.child("TouristInfo");
@@ -168,6 +168,11 @@ startActivity(new Intent(MainActivity.this,NavigationActivity.class));
                @Override
                public void onComplete(@NonNull Task<Void> task) {
                    Toast.makeText(MainActivity.this, "User added successfully.", Toast.LENGTH_SHORT).show();
+                   Intent i = new Intent(MainActivity.this,NavigationActivity.class);
+                   i.putExtra("name",firebaseUser.getDisplayName().toString());
+                   i.putExtra("email",firebaseUser.getEmail().toString());
+                   Toast.makeText(MainActivity.this, firebaseUser.getDisplayName().toString()+" "+firebaseUser.getEmail().toString(), Toast.LENGTH_SHORT).show();
+                   startActivity(i);
                }
            });
         }

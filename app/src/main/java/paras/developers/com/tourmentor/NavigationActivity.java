@@ -19,7 +19,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,9 +36,13 @@ public class NavigationActivity extends AppCompatActivity
     private int REQ_IMAGE = 1886;
     ImageView imageView ;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+    DatabaseReference reference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
+        String name = i.getStringExtra("name");
+        String email = i.getStringExtra("email");
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,6 +53,7 @@ public class NavigationActivity extends AppCompatActivity
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
         rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+        reference = FirebaseDatabase.getInstance().getReference();
        fab.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -67,12 +79,25 @@ public class NavigationActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
-Button btn = findViewById(R.id.mainbtnsd);
-btn.setOnClickListener(new View.OnClickListener() {
+
+       final TextView tv_name = hView.findViewById(R.id.header_name);
+        final TextView tv_email = hView.findViewById(R.id.header_email);
+
+reference.addValueEventListener(new ValueEventListener() {
     @Override
-    public void onClick(View view) {
-        startActivity(new Intent(NavigationActivity.this,MainActivity.class));
+    public void onDataChange(DataSnapshot dataSnapshot) {
+     for(DataSnapshot post:dataSnapshot.getChildren()){
+         TouristDetails tour = post.getValue(TouristDetails.class);
+         tv_name.setText(tour.name);
+         tv_email.setText(tour.Email);
+     }
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
     }
 });
     }
@@ -137,7 +162,7 @@ btn.setOnClickListener(new View.OnClickListener() {
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+           
 
         } else if (id == R.id.nav_slideshow) {
 
