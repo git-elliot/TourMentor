@@ -7,10 +7,5 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="paras.developers.com.tourmentor.NavigationActivity"
     tools:showIn="@layout/app_bar_navigation">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="signin activity"
-        android:id="@+id/mainbutton"
-        />
+
 </android.support.constraint.ConstraintLayout>
