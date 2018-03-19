@@ -1,5 +1,7 @@
 package paras.developers.com.tourmentor;
 
+import android.annotation.SuppressLint;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -67,13 +69,6 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Button btn = findViewById(R.id.mainbutton);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(NavigationActivity.this,MainActivity.class));
-            }
-        });
     }
 
     @Override
@@ -126,6 +121,7 @@ public class NavigationActivity extends AppCompatActivity
         }
     }
 
+    @SuppressLint("ResourceType")
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -135,6 +131,7 @@ public class NavigationActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+           
 
         } else if (id == R.id.nav_slideshow) {
 
