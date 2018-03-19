@@ -53,5 +53,6 @@
         android:layout_margin="20sp"
         app:backgroundTint="@color/colorAccent"
         app:elevation="6dp"
+        android:src="@drawable/ic_add_black_24dp"
         app:pressedTranslationZ="12dp" />
 </android.support.design.widget.CoordinatorLayout>
