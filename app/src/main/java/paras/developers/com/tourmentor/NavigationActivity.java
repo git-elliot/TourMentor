@@ -68,7 +68,13 @@ public class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+Button btn = findViewById(R.id.mainbtnsd);
+btn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        startActivity(new Intent(NavigationActivity.this,MainActivity.class));
+    }
+});
     }
 
     @Override
@@ -131,7 +137,7 @@ public class NavigationActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-           
+
 
         } else if (id == R.id.nav_slideshow) {
 
