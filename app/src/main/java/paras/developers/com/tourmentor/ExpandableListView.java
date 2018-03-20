@@ -92,10 +92,10 @@ DatabaseReference ref;
            TextView texts = view.findViewById(R.id.placetext);
            RatingBar bar = view.findViewById(R.id.ratingbar);
            TextView textst = view.findViewById(R.id.textFare);
-           texts.setText(lists.getPlace());
+           texts.setText(lists.getName());
            int rate = Integer.parseInt(lists.getRating());
            bar.setRating(rate);
-           textst.setText(lists.getFare());
+           textst.setText(lists.getTicket());
            return view;
        }
         return null;

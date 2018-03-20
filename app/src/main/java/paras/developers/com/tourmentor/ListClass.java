@@ -5,40 +5,41 @@ package paras.developers.com.tourmentor;
  */
 
 public class ListClass {
-   String place;
-   String rating;
-   String fare;
-public ListClass(){
+   String name;
+    String Rating;
+    String Ticket;
 
-}
-
-    public ListClass(String place, String rating, String fare) {
-        this.place = place;
-        this.rating = rating;
-        this.fare = fare;
+    public String getName() {
+        return name;
     }
 
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRating() {
-        return rating;
+        return Rating;
     }
 
     public void setRating(String rating) {
-        this.rating = rating;
+        Rating = rating;
     }
 
-    public String getFare() {
-        return fare;
+    public String getTicket() {
+        return Ticket;
     }
 
-    public void setFare(String fare) {
-        this.fare = fare;
+    public void setTicket(String ticket) {
+        Ticket = ticket;
     }
+
+    public ListClass(String name, String rating, String ticket) {
+
+        this.name = name;
+        Rating = rating;
+        Ticket = ticket;
+    }
+public ListClass(){
+
+}
 }

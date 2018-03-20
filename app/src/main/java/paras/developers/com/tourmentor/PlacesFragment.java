@@ -50,8 +50,13 @@ public class PlacesFragment extends Fragment {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
            for(DataSnapshot post:dataSnapshot.getChildren()){
-ListClass details = post.getValue(ListClass.class);
-               Toast.makeText(getActivity(), "Details : "+details.getPlace()+details.getFare()+details.getRating(), Toast.LENGTH_SHORT).show();
+               for(DataSnapshot nestedPost : post.getChildren()){
+
+                   String key =  nestedPost.getKey().toString();
+                   ListClass details = nestedPost.child(key).getValue(ListClass.class);
+                   Toast.makeText(getActivity(), "Details : "+details.getTicket()+ " \n"+details.getName(), Toast.LENGTH_SHORT).show();
+
+               }
 //              listDataHeader.add(post.getValue().toString());
 //              HashMap<String,String> hash = new HashMap<>();
 //              hash.put(post.child("Rating").getValue().toString(),post.child("Ticket").getValue().toString());
