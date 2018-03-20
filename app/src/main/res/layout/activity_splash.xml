@@ -7,10 +7,28 @@
     android:orientation="vertical"
     tools:context="paras.developers.com.tourmentor.SplashActivity">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="20dp"
+        android:text="Tour Mentor"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/icon"
         android:layout_gravity="center"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:text="Let's travel wisely this time"
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"
         />
 </FrameLayout>

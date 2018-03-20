@@ -2,8 +2,13 @@ package paras.developers.com.tourmentor;
 
 import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -27,6 +32,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,7 +91,7 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
-
+       imageView = hView.findViewById(R.id.imageView);
        final TextView tv_name = hView.findViewById(R.id.header_name);
         final TextView tv_email = hView.findViewById(R.id.header_email);
 
@@ -91,6 +101,15 @@ reference.child("TouristInfo").child(uid).addListenerForSingleValueEvent(new Val
         if(dataSnapshot.exists()){
             tv_name.setText(dataSnapshot.child("name").getValue().toString());
             tv_email.setText(dataSnapshot.child("Email").getValue().toString());
+            String src =dataSnapshot.child("photoUrl").getValue().toString();
+            int SDK_INT = android.os.Build.VERSION.SDK_INT;
+            if (SDK_INT > 8)
+            {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                        .permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                imageView.setImageBitmap(getBitmapFromURL(src,100,100));
+            }
         }
     }
 
@@ -100,6 +119,40 @@ reference.child("TouristInfo").child(uid).addListenerForSingleValueEvent(new Val
     }
 });
     }
+
+    public static Bitmap getBitmapFromURL( String src, int h, int w) {
+        try {
+            java.net.URL url = new java.net.URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return getResizedBitmap(myBitmap,h,w);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Bitmap getResizedBitmap( Bitmap bm, int newHeight, int newWidth) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+
+        return Bitmap.createBitmap(bm, 0, 0, width, height,
+                matrix, false);
+
+    }
+
 
     @Override
     public void onBackPressed() {
