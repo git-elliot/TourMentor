@@ -44,19 +44,19 @@ public class PlacesFragment extends Fragment {
         // Inflate the layout for this fragment
         View vv =  inflater.inflate(R.layout.fragment_places, container, false);
         expListView = (ExpandableListView)vv.findViewById(R.id.sublist);
-    ref = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference newref = ref.child("Places");
+    ref = FirebaseDatabase.getInstance().getReference().child("Places");
     listDataHeader = new ArrayList<String>();
-    newref.child("Places").addValueEventListener(new ValueEventListener() {
+    ref.addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
            for(DataSnapshot post:dataSnapshot.getChildren()){
 ListClass details = post.getValue(ListClass.class);
-              listDataHeader.add(post.getValue().toString());
-              HashMap<String,String> hash = new HashMap<>();
-              hash.put(post.child("Rating").getValue().toString(),post.child("Ticket").getValue().toString());
-               Toast.makeText(getActivity(), post.child("Rating").getValue().toString()+post.child("Ticket").getValue().toString(), Toast.LENGTH_SHORT).show();
-              maps.put(post.getValue().toString(),hash);
+               Toast.makeText(getActivity(), "Details : "+details.getPlace()+details.getFare()+details.getRating(), Toast.LENGTH_SHORT).show();
+//              listDataHeader.add(post.getValue().toString());
+//              HashMap<String,String> hash = new HashMap<>();
+//              hash.put(post.child("Rating").getValue().toString(),post.child("Ticket").getValue().toString());
+//               Toast.makeText(getActivity(), post.child("Rating").getValue().toString()+post.child("Ticket").getValue().toString(), Toast.LENGTH_SHORT).show();
+//              maps.put(post.getValue().toString(),hash);
            }
         }
         @Override
