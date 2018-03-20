@@ -52,16 +52,11 @@ public class PlacesFragment extends Fragment {
            for(DataSnapshot post:dataSnapshot.getChildren()){
                for(DataSnapshot nestedPost : post.getChildren()){
 
-                   String key =  nestedPost.getKey().toString();
-                   ListClass details = nestedPost.child(key).getValue(ListClass.class);
-                   Toast.makeText(getActivity(), "Details : "+details.getTicket()+ " \n"+details.getName(), Toast.LENGTH_SHORT).show();
+                   ListClass details = nestedPost.getValue(ListClass.class);
 
+              listDataHeader.add(nestedPost.getValue().toString());
+              HashMap<String,String> hash = new HashMap<>();
                }
-//              listDataHeader.add(post.getValue().toString());
-//              HashMap<String,String> hash = new HashMap<>();
-//              hash.put(post.child("Rating").getValue().toString(),post.child("Ticket").getValue().toString());
-//               Toast.makeText(getActivity(), post.child("Rating").getValue().toString()+post.child("Ticket").getValue().toString(), Toast.LENGTH_SHORT).show();
-//              maps.put(post.getValue().toString(),hash);
            }
         }
         @Override
