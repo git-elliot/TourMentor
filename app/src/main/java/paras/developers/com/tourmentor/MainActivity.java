@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -47,6 +49,8 @@ FirebaseAuth auth;
     private DatabaseReference mDatabase;
     private DatabaseReference userEnd ;
 String TAG ="MainActivity";
+    private ProgressDialog dialog;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -113,7 +117,10 @@ btn.setOnClickListener(new View.OnClickListener() {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             Toast.makeText(this,"WelCome"+ account.getDisplayName(), Toast.LENGTH_SHORT).show();
-            firebaseAuthWithGoogle(account);
+
+            BackgroundTask task2 = new BackgroundTask(MainActivity.this,account);
+            task2.execute();
+
 
         } catch (ApiException e) {
             Log.e("Tag","SignIn");
@@ -169,6 +176,9 @@ btn.setOnClickListener(new View.OnClickListener() {
                    Toast.makeText(MainActivity.this, "User added successfully.", Toast.LENGTH_SHORT).show();
                    Intent i = new Intent(MainActivity.this,NavigationActivity.class);
                    i.putExtra("uid",firebaseUser.getUid());
+                   if(dialog.isShowing()){
+                       dialog.dismiss();
+                   }
                    Toast.makeText(MainActivity.this, firebaseUser.getDisplayName().toString()+" "+firebaseUser.getEmail().toString(), Toast.LENGTH_SHORT).show();
                    startActivity(i);
                }
@@ -177,5 +187,32 @@ btn.setOnClickListener(new View.OnClickListener() {
 
 
     }
+
+    private class BackgroundTask extends AsyncTask<Void, Void, Void> {
+        GoogleSignInAccount user;
+        public BackgroundTask(MainActivity activity, GoogleSignInAccount user) {
+            this.user = user;
+            dialog = new ProgressDialog(activity);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Checking your details with server...");
+            dialog.show();
+        }
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Thread.sleep(2000);
+                firebaseAuthWithGoogle(user);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+    }
+
 
 }
