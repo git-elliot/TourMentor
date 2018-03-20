@@ -6,7 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +23,7 @@ public class ExpandableListView extends BaseExpandableListAdapter {
     private Context _context;
     private List<String> _listDataHeader;
     private HashMap<String, List<String>> _listDataChild;
-
+DatabaseReference ref;
     public ExpandableListView(Context context, List<String> listDataHeader,
                               HashMap<String, List<String>> listChildData) {
         this._context = context;
@@ -66,6 +70,7 @@ public class ExpandableListView extends BaseExpandableListAdapter {
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         String headerTitle = (String) getGroup(i);
         if (view == null) {
+            ref = FirebaseDatabase.getInstance().getReference().child("Places");
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = infalInflater.inflate(R.layout.listplace, null);
@@ -85,8 +90,11 @@ public class ExpandableListView extends BaseExpandableListAdapter {
        if(view ==null){
            LayoutInflater inflater = (LayoutInflater)this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
            view = inflater.inflate(R.layout.places,null);
-           TextView texts = view.findViewById(R.id.childsdata);
+           TextView texts = view.findViewById(R.id.placetext);
+           RatingBar bar = view.findViewById(R.id.ratingbar);
+           TextView textst = view.findViewById(R.id.textFare);
            texts.setText(childtext);
+           bar.setRating(5);
            return view;
        }
         return null;
