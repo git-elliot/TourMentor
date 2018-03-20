@@ -161,7 +161,9 @@ reference.child("TouristInfo").child(uid).addListenerForSingleValueEvent(new Val
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-           
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.navigations,new PlacesFragment());
+            ft.commit();
 
         } else if (id == R.id.nav_slideshow) {
 

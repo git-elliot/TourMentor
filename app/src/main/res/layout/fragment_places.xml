@@ -4,5 +4,10 @@
     android:layout_height="match_parent"
     tools:context="paras.developers.com.tourmentor.PlacesFragment">
 
+    <ExpandableListView
+        android:id="@+id/sublist"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        tools:ignore="InvalidId"></ExpandableListView>
 
-</LinearLayout>
+    </LinearLayout>
