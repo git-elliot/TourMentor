@@ -43,6 +43,7 @@ public class NavigationActivity extends AppCompatActivity
         Intent i = getIntent();
         String name = i.getStringExtra("name");
         String email = i.getStringExtra("email");
+        
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,6 +91,7 @@ reference.addValueEventListener(new ValueEventListener() {
     public void onDataChange(DataSnapshot dataSnapshot) {
      for(DataSnapshot post:dataSnapshot.getChildren()){
          TouristDetails tour = post.getValue(TouristDetails.class);
+         Toast.makeText(NavigationActivity.this, "name", Toast.LENGTH_SHORT).show();
          tv_name.setText(tour.name);
          tv_email.setText(tour.Email);
      }

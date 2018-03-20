@@ -30,8 +30,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,13 +84,8 @@ auth = FirebaseAuth.getInstance();
 btn.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
-        ProgressDialog dialog  = new ProgressDialog(MainActivity.this);
-        dialog.setMessage("Signing In......");
-        dialog.show();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-dialog.dismiss();
-startActivity(new Intent(MainActivity.this,NavigationActivity.class));
     }
 });
 
@@ -156,10 +154,11 @@ startActivity(new Intent(MainActivity.this,NavigationActivity.class));
     public void registerUsertoFirebase(final FirebaseUser firebaseUser){
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        userEnd = mDatabase.child("TouristInfo");
-        List<TouristDetails> touristDetailsList = getTouristInfo(firebaseUser.getDisplayName().toString(),firebaseUser.getPhotoUrl().toString(),firebaseUser.getEmail().toString());
+        userEnd = mDatabase.child("TouristInfo").child(firebaseUser.getUid());
+
+        List<TouristDetails> touristDetailsList = getTouristInfo(firebaseUser.getDisplayName().toString(),firebaseUser.getPhotoUrl().toString(),firebaseUser.getEmail());
         for(TouristDetails touristDetails1 : touristDetailsList){
-           userEnd.child(firebaseUser.getUid()).setValue(touristDetails1).addOnFailureListener(new OnFailureListener() {
+            userEnd.setValue(touristDetails1).addOnFailureListener(new OnFailureListener() {
                @Override
                public void onFailure(@NonNull Exception e) {
                    Toast.makeText(MainActivity.this, "Unable to register", Toast.LENGTH_SHORT).show();
