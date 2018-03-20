@@ -156,7 +156,7 @@ btn.setOnClickListener(new View.OnClickListener() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userEnd = mDatabase.child("TouristInfo").child(firebaseUser.getUid());
 
-        List<TouristDetails> touristDetailsList = getTouristInfo(firebaseUser.getDisplayName().toString(),firebaseUser.getPhotoUrl().toString(),firebaseUser.getEmail());
+        List<TouristDetails> touristDetailsList = getTouristInfo(firebaseUser.getDisplayName().toString(),firebaseUser.getEmail(),firebaseUser.getPhotoUrl().toString());
         for(TouristDetails touristDetails1 : touristDetailsList){
             userEnd.setValue(touristDetails1).addOnFailureListener(new OnFailureListener() {
                @Override
@@ -168,8 +168,7 @@ btn.setOnClickListener(new View.OnClickListener() {
                public void onComplete(@NonNull Task<Void> task) {
                    Toast.makeText(MainActivity.this, "User added successfully.", Toast.LENGTH_SHORT).show();
                    Intent i = new Intent(MainActivity.this,NavigationActivity.class);
-                   i.putExtra("name",firebaseUser.getDisplayName().toString());
-                   i.putExtra("email",firebaseUser.getEmail().toString());
+                   i.putExtra("uid",firebaseUser.getUid());
                    Toast.makeText(MainActivity.this, firebaseUser.getDisplayName().toString()+" "+firebaseUser.getEmail().toString(), Toast.LENGTH_SHORT).show();
                    startActivity(i);
                }

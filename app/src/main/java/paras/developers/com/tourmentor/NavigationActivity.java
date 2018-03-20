@@ -41,9 +41,8 @@ public class NavigationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
-        String name = i.getStringExtra("name");
-        String email = i.getStringExtra("email");
-        
+        final String uid = i.getStringExtra("uid");
+
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -86,15 +85,13 @@ public class NavigationActivity extends AppCompatActivity
        final TextView tv_name = hView.findViewById(R.id.header_name);
         final TextView tv_email = hView.findViewById(R.id.header_email);
 
-reference.addValueEventListener(new ValueEventListener() {
+reference.child("TouristInfo").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-     for(DataSnapshot post:dataSnapshot.getChildren()){
-         TouristDetails tour = post.getValue(TouristDetails.class);
-         Toast.makeText(NavigationActivity.this, "name", Toast.LENGTH_SHORT).show();
-         tv_name.setText(tour.name);
-         tv_email.setText(tour.Email);
-     }
+        if(dataSnapshot.exists()){
+            tv_name.setText(dataSnapshot.child("name").getValue().toString());
+            tv_email.setText(dataSnapshot.child("Email").getValue().toString());
+        }
     }
 
     @Override
