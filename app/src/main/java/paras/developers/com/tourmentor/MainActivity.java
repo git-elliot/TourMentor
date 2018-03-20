@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -176,6 +177,11 @@ btn.setOnClickListener(new View.OnClickListener() {
                    Toast.makeText(MainActivity.this, "User added successfully.", Toast.LENGTH_SHORT).show();
                    Intent i = new Intent(MainActivity.this,NavigationActivity.class);
                    i.putExtra("uid",firebaseUser.getUid());
+                   SharedPreferences sp = getSharedPreferences("account",MODE_PRIVATE);
+                   SharedPreferences.Editor et = sp.edit();
+                   et.putString("uid",firebaseUser.getUid());
+                   et.apply();
+
                    if(dialog.isShowing()){
                        dialog.dismiss();
                    }
