@@ -56,6 +56,8 @@ public class PlacesFragment extends Fragment {
 
               listDataHeader.add(nestedPost.getValue().toString());
               HashMap<String,String> hash = new HashMap<>();
+              hash.put(details.Ticket,details.Rating);
+              maps.put(details.name,hash);
                }
            }
         }

@@ -16,14 +16,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="hello_places"
             android:id="@+id/placetext"/>
         <RatingBar
             android:layout_width="wrap_content"
+            android:text="hello_places"
             android:layout_height="wrap_content"
             android:id="@+id/ratingbar"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="hello_places"
             android:id="@+id/textFare"/>
     </LinearLayout>
 </LinearLayout>
