@@ -22,10 +22,10 @@ import java.util.List;
 public class ExpandableListView extends BaseExpandableListAdapter {
     private Context _context;
     private List<String> _listDataHeader;
-    private HashMap<String, List<String>> _listDataChild;
+    private HashMap<String,HashMap<String,String>> _listDataChild;
 DatabaseReference ref;
     public ExpandableListView(Context context, List<String> listDataHeader,
-                              HashMap<String, List<String>> listChildData) {
+                              HashMap<String, HashMap<String,String>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -47,8 +47,7 @@ DatabaseReference ref;
 
     @Override
     public Object getChild(int i, int i1) {
-        return this._listDataChild.get(this._listDataHeader.get(i))
-                .get(i1);
+        return _listDataChild.get(i1);
     }
 
     @Override
@@ -86,15 +85,17 @@ DatabaseReference ref;
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-       String childtext = (String)getChild(i,i1);
+ ListClass lists = (ListClass)getChild(i,i1);
        if(view ==null){
            LayoutInflater inflater = (LayoutInflater)this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
            view = inflater.inflate(R.layout.places,null);
            TextView texts = view.findViewById(R.id.placetext);
            RatingBar bar = view.findViewById(R.id.ratingbar);
            TextView textst = view.findViewById(R.id.textFare);
-           texts.setText(childtext);
-           bar.setRating(5);
+           texts.setText(lists.getPlace());
+           int rate = Integer.parseInt(lists.getRating());
+           bar.setRating(rate);
+           textst.setText(lists.getFare());
            return view;
        }
         return null;

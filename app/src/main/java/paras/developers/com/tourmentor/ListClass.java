@@ -5,24 +5,17 @@ package paras.developers.com.tourmentor;
  */
 
 public class ListClass {
-    int rating;
-    String place;
-    int fare;
-
-    public ListClass(int rating, String place, int fare) {
-        this.rating = rating;
-        this.place = place;
-        this.fare = fare;
-    }
+   String place;
+   String rating;
+   String fare;
 public ListClass(){
 
 }
-    public int getRating() {
-        return rating;
-    }
 
-    public void setRating(int rating) {
+    public ListClass(String place, String rating, String fare) {
+        this.place = place;
         this.rating = rating;
+        this.fare = fare;
     }
 
     public String getPlace() {
@@ -33,11 +26,19 @@ public ListClass(){
         this.place = place;
     }
 
-    public int getFare() {
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getFare() {
         return fare;
     }
 
-    public void setFare(int fare) {
+    public void setFare(String fare) {
         this.fare = fare;
     }
 }
